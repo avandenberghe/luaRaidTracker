@@ -1,0 +1,36 @@
+## Interface: 50400
+## X-Min-Interface: 50000
+## Title: Raid Tracker
+## Author: Celess
+## Version: 2.4.47
+## Notes: Keeps account of attendance and loot for raids, parties, bgs, arenas and solo for questing.
+## X-Category: Boss Encounters
+## X-Credits: Cide,Eris
+## X-eMail: celess22 AT gmail DOT com
+## X-Icon: Interface\Icons\Ability_Racial_BearForm
+## X-ShortName: rt
+## X-LCapture: 0
+## X-License: GPL v2 or later
+## X-Website: http://www.curse.com/
+## OptionalDeps: Ace3,FuBar,FuBarPlugin-3.0,CT_RaidTracker,HoB_DKP,dkpposter,CT_MasterMod,AdvancedItemTooltip,EasyDKP,ItemLevelDKP
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariables: KARaidTrackerDB,RaidTrackerAceDB
+## X-Curse-Packaged-Version: 2.4.47
+## X-Curse-Project-Name: Raid Tracker
+## X-Curse-Project-ID: ka_raid-tracker
+## X-Curse-Repository-ID: wow/ka_raid-tracker/mainline
+
+#@no-lib-strip@
+embed.xml
+#@end-no-lib-strip@
+
+locales\locales.xml
+Data.lua
+Export.lua
+UI_Templates.xml
+UI_Button.xml
+UI_Options.xml
+UI_ItemOptions.xml
+RaidTracker.xml
+UI_Dialog.xml

@@ -1,0 +1,89 @@
+------------------------------------------------------------------------
+r419 | celess | 2013-11-01 01:54:42 +0000 (Fri, 01 Nov 2013) | 1 line
+Changed paths:
+   A /tags/2.4.47 (from /trunk:418)
+
+- release
+------------------------------------------------------------------------
+r418 | celess | 2013-11-01 01:53:59 +0000 (Fri, 01 Nov 2013) | 2 lines
+Changed paths:
+   M /trunk/RaidTracker.toc
+
+- update libs
+
+------------------------------------------------------------------------
+r416 | celess | 2013-10-03 01:08:49 +0000 (Thu, 03 Oct 2013) | 3 lines
+Changed paths:
+   M /trunk/RaidTracker.toc
+
+- lib and localization updates, coalesce wiht 5.4.0
+- 2.4.45 never finsihed curse packaging for some reason
+
+------------------------------------------------------------------------
+r414 | celess | 2013-10-02 07:02:12 +0000 (Wed, 02 Oct 2013) | 3 lines
+Changed paths:
+   M /trunk/RaidTracker.toc
+   M /trunk/locales/locale-deDE.lua
+   M /trunk/locales/locale-enUS.lua
+   M /trunk/locales/locale-koKR.lua
+   M /trunk/locales/locale-ruRU.lua
+   M /trunk/locales/locale-zhCN.lua
+   M /trunk/locales/locale-zhTW.lua
+   M /trunk/locales/localization.lua
+
+- more boss localizations
+- fixed rtm messages immer
+
+------------------------------------------------------------------------
+r412 | celess | 2013-10-02 04:45:15 +0000 (Wed, 02 Oct 2013) | 4 lines
+Changed paths:
+   M /trunk/RaidTracker.toc
+   M /trunk/UI_ItemOptions.lua
+   M /trunk/locales/locale-deDE.lua
+   M /trunk/locales/locale-enUS.lua
+   M /trunk/locales/locale-esES.lua
+   M /trunk/locales/locale-esMX.lua
+   M /trunk/locales/locale-frFR.lua
+   A /trunk/locales/locale-itIT.lua
+   M /trunk/locales/locale-ptBR.lua
+   M /trunk/locales/locale-ruRU.lua
+   M /trunk/locales/locale-zhCN.lua
+   M /trunk/locales/locale-zhTW.lua
+   M /trunk/locales/locales.xml
+
+- add italian
+- fix general localizations
+- minor cleanup
+
+------------------------------------------------------------------------
+r410 | celess | 2013-10-01 20:57:20 +0000 (Tue, 01 Oct 2013) | 2 lines
+Changed paths:
+   M /trunk/RaidTracker.toc
+   M /trunk/locales/locale-deDE.lua
+   M /trunk/locales/locale-enUS.lua
+   M /trunk/locales/locale-koKR.lua
+   M /trunk/locales/locale-ptBR.lua
+   M /trunk/locales/locale-ruRU.lua
+   M /trunk/locales/locale-zhTW.lua
+
+- localizations for Immer
+
+------------------------------------------------------------------------
+r408 | celess | 2013-10-01 19:13:06 +0000 (Tue, 01 Oct 2013) | 3 lines
+Changed paths:
+   M /trunk/RaidTracker.toc
+   M /trunk/locales/locale-enUS.lua
+   M /trunk/locales/locale-esES.lua
+   M /trunk/locales/locale-esMX.lua
+   M /trunk/locales/locale-frFR.lua
+   M /trunk/locales/locale-koKR.lua
+   M /trunk/locales/locale-ptBR.lua
+   M /trunk/locales/locale-ruRU.lua
+   M /trunk/locales/locale-zhCN.lua
+   M /trunk/locales/locale-zhTW.lua
+   M /trunk/locales/localization.lua
+
+- Immerseus, Spoils of Pandaria fixes
+- lib updates
+
+------------------------------------------------------------------------

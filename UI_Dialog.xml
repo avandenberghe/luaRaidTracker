@@ -1,0 +1,185 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="UI_Dialog.lua" />
+	<Frame name="RT_ConfirmDeleteFrame" inherits="RT_DialogTemplate" parent="RaidTrackerFrame">
+		<Frames>
+			<Button name="$parentDeleteButton" inherits="RT_DeleteButtonTemplate" />
+			<Button name="$parentCancelButton" inherits="RT_CancelButtonTemplate" />
+		</Frames>
+		<Scripts>
+			<OnEvent>
+				if event == "OnDelete" then
+				RT_Dialog:Delete_OnSave(self)
+				end
+			</OnEvent>
+			<OnShow>
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_AcceptWipeFrame" inherits="RT_DialogTemplate">
+		<Frames>
+			<Button name="$parentNoButton" inherits="RT_ButtonTemplate" text="No" />
+			<Button name="$parentYesButton" inherits="RT_ButtonTemplate" text="Yes">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentNoButton" relativePoint="LEFT" />
+				</Anchors>
+			</Button>
+			<Button name="$parentMaybeButton" inherits="RT_ButtonTemplate" text="Maybe">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentNoButton" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnEvent>
+				if option == "OnYes" then
+				RT_Dialog:Edit_OnSave(self)
+				elseif option == "OnNo" then
+				RT_Dialog:Edit_OnSave(self, "no")
+				elseif option == "OnMaybe" then
+				RT_Dialog:Edit_OnSave(self, "maybe")
+				end
+			</OnEvent>
+			<OnShow>
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_EditNoteFrame" inherits="RT_DialogEditTemplate" parent="RaidTrackerFrame">
+		<Frames>
+			<EditBox name="$parentTextBox" inherits="RT_EditBoxTemplate" />
+			<Button name="$parentSaveButton" inherits="RT_SaveButtonTemplate" />
+			<Button name="$parentCancelButton" inherits="RT_CancelButtonTemplate" />
+		</Frames>
+		<Scripts>
+			<OnEvent>
+				if event == "OnSave" then
+				RT_Dialog:Edit_OnSave(self)
+				end
+			</OnEvent>
+			<OnShow>
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_ExportFrame" inherits="RT_DialogEditTemplate" parent="RaidTrackerFrame">
+		<Frames>
+			<EditBox name="$parentTextBox" inherits="RT_EditBoxTemplate" letters="99999999" />
+			<Button name="$parentDoneButton" inherits="RT_DoneButtonTemplate" />
+		</Frames>
+		<Scripts>
+			<OnShow>
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_EditBossFrame" inherits="RT_DialogEditTemplate">
+		<Frames>
+			<Button name="$parentMenu" inherits="RT_MenuTemplate">
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize(self, RT_EditBossFrame_Menu_Initialize)
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="$parentSaveButton" inherits="RT_SaveButtonTemplate" />
+			<Button name="$parentCancelButton" inherits="RT_CancelButtonTemplate" />
+		</Frames>
+		<Scripts>
+			<OnEvent>
+				if event == "OnSave" then
+				RT_Dialog:Edit_OnSave(self)
+				end
+			</OnEvent>
+			<OnShow>
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_EditCostFrame" inherits="RT_DialogEditTemplate">
+		<Frames>
+			<EditBox name="$parentTextBox" inherits="RT_EditBoxTemplate" />
+			<Button name="$parentSaveButton" inherits="RT_SaveButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOM">
+						<Offset x="-120" y="17" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentBankButton" inherits="RT_ButtonTemplate" text="Bank">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentSaveButton" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+			<Button name="$parentDisenchantButton" inherits="RT_ButtonTemplate" text="Disenchant">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentBankButton" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+			<Button name="$parentCancelButton" inherits="RT_CancelButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentDisenchantButton" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnEvent>
+				if event == "OnSave" then
+				RT_Dialog:Edit_OnSave(self)
+				elseif event == "OnBank" then
+				RT_Dialog:Edit_OnSave(self, "bank")
+				elseif event == "OnDisenchant" then
+				RT_Dialog:Edit_OnSave(self, "disenchanted")
+				end
+			</OnEvent>
+			<OnShow>
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_JoinLeaveFrame" inherits="RT_DialogEditTemplate">
+		<Size x="400" y="200" />
+		<Frames>
+			<EditBox name="$parentNameEB" inherits="RT_EditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-30" y="-50" />
+					</Anchor>
+				</Anchors>
+			</EditBox>
+			<EditBox name="$parentNoteEB" inherits="RT_EditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentNameEB" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</EditBox>
+			<EditBox name="$parentTimeEB" inherits="RT_EditBoxTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentNoteEB" relativePoint="BOTTOMLEFT" />
+				</Anchors>
+			</EditBox>
+			<Button name="$parentSaveButton" inherits="RT_SaveButtonTemplate" />
+			<Button name="$parentCancelButton" inherits="RT_CancelButtonTemplate" />
+		</Frames>
+		<Scripts>
+			<OnEvent>
+				if event == "OnSave" then
+				RT_Dialog:Edit_OnSave(self)
+				end
+			</OnEvent>
+			<OnShow>
+				local rt = RaidTracker
+				local L = rt.L
+				local selfName = self:GetName()
+				local nameEBL = _G[selfName.."NameEBLable"]; nameEBL:SetText(L["Name"]..":"); nameEBL:Show()
+				local noteEBL = _G[selfName.."NoteEBLable"]; noteEBL:SetText(L["Note"]..":"); noteEBL:Show()
+				local timeEBL = _G[selfName.."TimeEBLable"]; timeEBL:SetText(L["Time"]..":"); timeEBL:Show()
+				local timeEB = _G[selfName.."TimeEB"]
+				local time = timeEB:GetText()
+				if not time or time == "" then
+				timeEB:SetText(RaidTracker:GetDisplayDate(RaidTracker:GetTimestamp()))
+				end
+				RT_Dialog:Edit_OnShow(self)
+			</OnShow>
+		</Scripts>
+	</Frame>
+</Ui>

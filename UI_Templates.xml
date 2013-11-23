@@ -1,0 +1,424 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="UI_Templates.lua" />
+	<Button name="RT_WidgetTemplate" virtual="true" enableMouse="true">
+		<Scripts>
+			<OnEnter>
+				local h = self._handler; if h and h.OnEnter then h:OnEnter(self) end
+			</OnEnter>
+			<OnLeave>
+				local h = self._handler; if h and h.OnLeave then h:OnLeave(self) end
+			</OnLeave>
+		</Scripts>
+	</Button>
+	<Button name="RT_ButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true" text="Button">
+		<Size x="80" y="21" />
+		<Anchors>
+			<Anchor point="BOTTOM">
+				<Offset y="17" />
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if not RT_Templates:FireEvent(self, "OnEvent", "On"..(self._iname or self:GetText())) then
+				self:GetParent():Hide()
+				end
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="RT_SaveButtonTemplate" inherits="RT_ButtonTemplate" virtual="true" text="Save">
+		<Anchors>
+			<Anchor point="BOTTOM">
+				<Offset x="-45" y="17" />
+			</Anchor>
+		</Anchors>
+	</Button>
+	<Button name="RT_CancelButtonTemplate" inherits="RT_ButtonTemplate" virtual="true" text="Cancel">
+		<Anchors>
+			<Anchor point="BOTTOM">
+				<Offset x="45" y="17" />
+			</Anchor>
+		</Anchors>
+	</Button>
+	<Button name="RT_DeleteButtonTemplate" inherits="RT_SaveButtonTemplate" virtual="true" text="Delete" />
+	<Button name="RT_DoneButtonTemplate" inherits="RT_ButtonTemplate" virtual="true" text="Done" />
+	<EditBox name="RT_EditLabelTemplate" virtual="true" letters="250">
+		<Size x="300" y="32" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<FontString inherits="ChatFontNormal" bytes="0" />
+	</EditBox>
+	<EditBox name="RT_EditBoxTemplate" virtual="true" letters="250">
+		<Size x="300" y="32" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentLable" inherits="GameFontHighlightSmall" hidden="true" text="Label:">
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT">
+							<Offset x="-10" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture name="$parentLeft" file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+					<Size x="65" y="32" />
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset x="-10" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0" right="0.2539" top="0" bottom="1" />
+				</Texture>
+				<Texture name="$parentRight" file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+					<Size x="25" y="32" />
+					<Anchors>
+						<Anchor point="RIGHT">
+							<Offset x="10" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.9" right="1" top="0" bottom="1" />
+				</Texture>
+				<Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+					<Size x="5" y="32" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT" />
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT" />
+					</Anchors>
+					<TexCoords left="0.29296875" right="1" top="0" bottom="1" />
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				self:SetFocus()
+			</OnShow>
+			<OnEnterPressed>
+				if not RT_Templates:FireEvent(self, "OnEvent", "OnSave") then
+				self:GetParent():Hide()
+				end
+			</OnEnterPressed>
+			<OnEscapePressed>
+				if not RT_Templates:FireEvent(self, "OnEvent", "OnCancel") then
+				self:SetText("")
+				self:GetParent():Hide()
+				end
+			</OnEscapePressed>
+		</Scripts>
+		<FontString inherits="ChatFontNormal" bytes="0" />
+	</EditBox>
+	<Button name="RT_MenuTemplate" inherits="UIDropDownMenuTemplate" virtual="true">
+		<Size x="300" y="20" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Scripts>
+			<OnShow>
+				UIDropDownMenu_SetWidth(self, 90)
+			</OnShow>
+		</Scripts>
+	</Button>
+	<Slider name="RT_SliderTemplate" inherits="RT_WidgetTemplate" virtual="true" minValue="0" maxValue="0" valueStep="1" orientation="HORIZONTAL">
+		<Size x="136" y="20" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="6" bottom="6" />
+			</BackgroundInsets>
+			<TileSize val="8" />
+			<EdgeSize val="8" />
+		</Backdrop>
+		<Scripts>
+			<OnValueChanged>
+				if not self._onsetting then
+					self._onsetting = true
+					self:SetValue(self:GetValue())
+					value = self:GetValue()
+					self._onsetting = false
+				else return end
+				RT_Templates:SliderOnValueChanged(self, value)
+			</OnValueChanged>
+		</Scripts>
+		<ThumbTexture file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+			<Size x="32" y="30" />
+		</ThumbTexture>
+	</Slider>
+	<Slider name="RT_SliderSmallTemplate" inherits="RT_SliderTemplate" virtual="true" minValue="0" maxValue="0">
+		<Size x="64" y="20" />
+	</Slider>
+	<CheckButton name="RT_CheckBoxTemplate" inherits="OptionsCheckButtonTemplate,RT_WidgetTemplate" virtual="true">
+		<Size x="20" y="20" />
+		<Anchors>
+			<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentTitle" inherits="GameFontHighlightSmall" text="Title:">
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT">
+							<Offset x="-10" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</CheckButton>
+	<FontString name="RT_FontString" inherits="GameFontNormalLeft" virtual="true" setAllPoints="true" bytes="0" nonspacewrap="true" />
+	<FontString name="RT_FontStringSmall" inherits="GameFontNormalSmallLeft" virtual="true" setAllPoints="true" bytes="0" nonspacewrap="true" />
+	<Texture name="RT_LineHighlight_" virtual="true" hidden="true" file="Interface\Tooltips\UI-Tooltip-Background">
+		<Anchors>
+			<Anchor point="TOP" />
+			<Anchor point="BOTTOM" />
+			<Anchor point="LEFT">
+				<Offset x="-5" />
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset x="5" />
+			</Anchor>
+		</Anchors>
+	</Texture>
+	<Texture name="RT_LineHighlight" inherits="RT_LineHighlight_" virtual="true" file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alphaMode="ADD">
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset x="-6" />
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset x="20" />
+			</Anchor>
+		</Anchors>
+		<Color r="1" g="0.85" b="0.25" />
+	</Texture>
+	<Frame name="RT_LineTemplate" virtual="true" hidden="true">
+		<Size y="19" />
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset x="4" />
+			</Anchor>
+			<Anchor point="RIGHT">
+				<Offset x="-4" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentMouseOver" inherits="RT_LineHighlight" />
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				_G[self:GetName().."MouseOver"]:SetAlpha(0.30)
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_LineEventTemplate" inherits="RT_LineTemplate" virtual="true">
+		<Size y="15" />
+		<Scripts>
+			<OnClick>
+				RT_Button:OnClick(self,button)
+			</OnClick>
+			<OnEnter>
+				RT_Button:OnEnter(self)
+			</OnEnter>
+			<OnLeave>
+				RT_Button:OnLeave(self)
+			</OnLeave>
+			<OnShow>
+				RT_Button:OnShow(self)
+			</OnShow>
+			<OnLoad>
+				self._parent=self; self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_SectionTemplate" inherits="RT_WidgetTemplate" virtual="true">
+		<Size y="20" />
+		<Anchors>
+			<Anchor point="LEFT" />
+			<Anchor point="RIGHT" />
+		</Anchors>
+		<Layers>
+			<Layer>
+				<FontString name="$parentTitle" inherits="GameFontNormalSmall" text="Title" justifyH="LEFT">
+					<Size y="16" />
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset x="22" />
+						</Anchor>
+						<Anchor point="RIGHT" />
+						<Anchor point="BOTTOM" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="RT_PanelSectionTemplate" virtual="true">
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="5" right="5" top="5" bottom="5" />
+			</BackgroundInsets>
+			<TileSize val="16" />
+			<EdgeSize val="16" />
+			<Color a="0.58" r="1" g="1" b="1" />
+		</Backdrop>
+	</Frame>
+	<ScrollFrame name="RT_PanelSectionScrollTemplate" inherits="FauxScrollFrameTemplate" virtual="true">
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="5" y="-5" />
+			</Anchor>
+			<Anchor point="BOTTOMRIGHT">
+				<Offset x="-27" y="5" />
+			</Anchor>
+		</Anchors>
+	</ScrollFrame>
+	<Button name="RT_PanelSectionLineTemplate" inherits="RT_LineEventTemplate" virtual="true">
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset x="2" />
+			</Anchor>
+			<Anchor point="RIGHT" />
+		</Anchors>
+	</Button>
+	<Frame name="RT_FrameTemplate" virtual="true" hidden="true" parent="UIParent" toplevel="true" movable="true" enableMouse="true">
+		<Size x="415" y="512" />
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize val="32" />
+			<EdgeSize val="32" />
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture parentKey="titleBgLeft" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size x="80" y="64" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="30" y="12" />
+					</Anchors>
+					<TexCoords left="0" right="0.29" top="0" bottom="1" />
+				</Texture>
+				<Texture parentKey="titleBgRight" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size x="80" y="64" />
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-30" y="12" />
+					</Anchors>
+					<TexCoords left="0.71" right="1" top="0" bottom="1" />
+				</Texture>
+				<Texture name="$parentHeaderTexture" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size y="64" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.titleBgLeft" relativePoint="RIGHT" />
+						<Anchor point="RIGHT" relativeKey="$parent.titleBgRight" relativePoint="LEFT" />
+					</Anchors>
+					<TexCoords left="0.29" right="0.71" top="0" bottom="1" />
+				</Texture>
+				<FontString name="$parentHeaderTitle" inherits="GameFontNormal" text="Title">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.titleBgLeft">
+							<Offset y="12" />
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.titleBgRight">
+							<Offset y="12" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentHeaderText" inherits="GameFontNormal" text="">
+					<Size y="32" />
+					<Anchors>
+						<Anchor point="LEFT">
+							<Offset x="10" />
+						</Anchor>
+						<Anchor point="RIGHT">
+							<Offset x="-10" />
+						</Anchor>
+						<Anchor point="TOP">
+							<Offset y="-20" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnShow>
+				PlaySound("UChatScrollButton")
+			</OnShow>
+			<OnHide>
+				PlaySound("UChatScrollButton")
+			</OnHide>
+			<OnDragStart>
+				self:StartMoving()
+				self.isMoving = true
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+				self.isMoving = false
+			</OnDragStop>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="RT_PanelTemplate" inherits="RT_FrameTemplate" virtual="true">
+		<Frames>
+			<Button inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-5" y="-5" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="RT_DialogTemplate" inherits="RT_FrameTemplate" virtual="true" frameStrata="DIALOG">
+		<Size x="375" y="95" />
+	</Frame>
+	<Frame name="RT_DialogEditTemplate" inherits="RT_DialogTemplate" virtual="true">
+		<Size x="375" y="125" />
+	</Frame>
+	<Button name="RT_TabTemplate" virtual="true">
+		<Size x="40" y="22" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentLeft" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="5" />
+					<Anchors>
+						<Anchor point="TOP" />
+						<Anchor point="BOTTOM" />
+						<Anchor point="LEFT" />
+					</Anchors>
+					<TexCoords left="0" right="0.078125" top="0" bottom="0.75" />
+				</Texture>
+				<Texture name="$parentRight" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="4" />
+					<Anchors>
+						<Anchor point="TOP" />
+						<Anchor point="BOTTOM" />
+						<Anchor point="RIGHT" />
+					</Anchors>
+					<TexCoords left="0.90625" right="0.96875" top="0" bottom="0.75" />
+				</Texture>
+				<Texture name="$parentMiddle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Anchors>
+						<Anchor point="TOP" />
+						<Anchor point="BOTTOM" />
+						<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT" />
+						<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT" />
+					</Anchors>
+					<TexCoords left="0.078125" right="0.90625" top="0" bottom="0.75" />
+				</Texture>
+			</Layer>
+		</Layers>
+		<ButtonText inherits="GameFontHighlightSmallLeft">
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset x="8" />
+				</Anchor>
+			</Anchors>
+		</ButtonText>
+	</Button>
+</Ui>

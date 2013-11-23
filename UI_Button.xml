@@ -1,0 +1,328 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="UI_Button.lua" />
+	<Button name="RT_LineButtonTemplate" virtual="true">
+		<Scripts>
+			<OnClick>
+				RT_Button:OnClick(self, button)
+			</OnClick>
+			<OnEnter>
+				RT_Button:OnEnter(self)
+			</OnEnter>
+			<OnLeave>
+				RT_Button:OnLeave(self)
+			</OnLeave>
+		</Scripts>
+	</Button>
+	<Button name="RT_LineDeleteTemplate" inherits="RT_LineButtonTemplate" virtual="true">
+		<Size x="19" y="16" />
+		<Anchors>
+			<Anchor point="RIGHT" />
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self.type = "delete"
+				self.hasTooltip = true
+			</OnLoad>
+		</Scripts>
+		<ButtonText inherits="QuestFont" text="[X]" justifyH="RIGHT" />
+		<NormalFont style="QuestFont" />
+		<HighlightFont style="QuestFontHighlight" />
+	</Button>
+	<Button name="RT_LineNoteTemplate" inherits="RT_LineButtonTemplate" virtual="true">
+		<Size x="16" y="16" />
+		<Anchors>
+			<Anchor point="RIGHT" />
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self.type = "note"
+				self.note = ""
+				self.hasTooltip = true
+			</OnLoad>
+		</Scripts>
+		<NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-GuildButton-PublicNote-Up" />
+		<DisabledTexture file="Interface\Buttons\UI-GuildButton-PublicNote-Disabled" />
+		<HighlightTexture file="Interface\Buttons\UI-GuildButton-PublicNote-Up" alphaMode="ADD" />
+	</Button>
+	<Button name="RT_LineHitTemplate" inherits="RT_LineButtonTemplate" virtual="true">
+		<Anchors>
+			<Anchor point="TOP" />
+			<Anchor point="LEFT" />
+			<Anchor point="BOTTOM" />
+			<Anchor point="RIGHT" />
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self.type = "hit"
+				self:RegisterForClicks( "LeftButtonUp", "RightButtonUp" )
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="RT_ListLineTemplate" inherits="RT_LineEventTemplate" virtual="true">
+		<Frames>
+			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" hidden="true" id="1">
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize(self, RT_RaidItemTemplate_RightClickMenu_Initialize, "MENU")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.type = "raid"
+				self._parent = self
+				self.title = "Right click for more options"
+				self.hasTooltip = true
+				self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+			</OnLoad>
+		</Scripts>
+		<ButtonText inherits="RT_FontString" />
+	</Button>
+	<Frame name="RT_PlayersLineTemplate" inherits="RT_LineTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentNumber" inherits="QuestFontLeft">
+					<Size x="20" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentName" inherits="QuestFontLeft">
+					<Size x="95" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentNumber" relativePoint="RIGHT">
+							<Offset x="2" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentJoin" inherits="QuestFontLeft">
+					<Size x="70" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentName" relativePoint="RIGHT" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLeave" inherits="QuestFontLeft">
+					<Size x="70" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentJoin" relativePoint="RIGHT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" hidden="true" id="1">
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize( self, RT_PlayersLineTemplate_RightClickMenu_Initialize, "MENU" )
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Button name="$parentDeleteButton" inherits="RT_LineDeleteTemplate" />
+			<Button name="$parentNoteButton" inherits="RT_LineNoteTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentDeleteButton" relativePoint="LEFT" />
+				</Anchors>
+			</Button>
+			<Button name="$parentHitArea" inherits="RT_LineHitTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentNoteButton" relativePoint="LEFT" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.type = "hit"
+						self.title = "Right click for more options"
+						self.hasTooltip = true
+						self:RegisterForClicks( "LeftButtonUp", "RightButtonUp" )
+					</OnLoad>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="RT_ItemsLineTemplate" inherits="RT_LineTemplate" virtual="true">
+		<Size y="41" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentIconTexture">
+					<Size x="37" y="37" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parentDescription" inherits="QuestFontLeft" justifyV="TOP">
+					<Size x="215" y="27" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentIconTexture" relativePoint="TOPRIGHT">
+							<Offset x="5" y="-1" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentLooted" inherits="GameFontBlackSmall" justifyV="TOP" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentDescription" relativePoint="BOTTOMLEFT" />
+						<Anchor point="RIGHT" relativeTo="$parentDescription" />
+						<Anchor point="BOTTOM" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentCount" inherits="NumberFontNormal" justifyH="RIGHT">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentIconTexture">
+							<Offset x="-3" y="2" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" hidden="true" id="1">
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize( self, RT_ItemsLineTemplate_RightClickMenu_Initialize, "MENU" )
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Button name="$parentNoteButton" inherits="RT_LineNoteTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-1" y="-5" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="$parentDeleteButton" inherits="RT_LineDeleteTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parentNoteButton" relativePoint="BOTTOM" />
+				</Anchors>
+			</Button>
+			<Button name="$parentIconHitArea" inherits="RT_LineHitTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentIconTexture" relativePoint="RIGHT" />
+				</Anchors>
+				<Scripts>
+					<OnUpdate>
+						RT_Button:OnUpdate(self)
+					</OnUpdate>
+					<OnLoad>
+						self.type = "editio"
+						self.hasItem = true
+						self:RegisterForClicks( "LeftButtonUp", "RightButtonUp" )
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="$parentHitArea" inherits="RT_LineHitTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentIconHitArea" relativePoint="RIGHT" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.type = "hit"
+						self.title = "Right click for more options"
+						self.hasTooltip = true
+						self:RegisterForClicks( "LeftButtonUp", "RightButtonUp" )
+					</OnLoad>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="RT_RaidsLineTemplate" inherits="RT_LineTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentNumber" inherits="QuestFontLeft">
+					<Size x="30" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentName" inherits="QuestFontLeft">
+					<Size x="130" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentNumber" relativePoint="RIGHT" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentNote" inherits="QuestFontLeft">
+					<Size x="135" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentName" relativePoint="RIGHT" />
+					</Anchors>
+				</FontString>
+				<Texture name="$parentMouseOver_player" inherits="RT_LineHighlight">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentNote" relativePoint="LEFT" />
+						<Anchor point="RIGHT" relativeTo="$parentNote" relativePoint="RIGHT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentDeleteButton" inherits="RT_LineDeleteTemplate" />
+			<Button name="$parentNoteButton" inherits="RT_LineNoteTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentDeleteButton" relativePoint="LEFT" />
+				</Anchors>
+			</Button>
+			<Button name="$parentHitAreaRight" inherits="RT_LineHitTemplate" hidden="true">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentNote" />
+					<Anchor point="RIGHT" relativeTo="$parentNote" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.type = "player"
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="$parentHitArea" inherits="RT_LineHitTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentHitAreaRight" relativePoint="LEFT" />
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="RT_EventsLineTemplate" inherits="RT_LineTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString name="$parentBoss" inherits="QuestFontLeft">
+					<Size x="160" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentTime" inherits="QuestFontLeft">
+					<Size x="90" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentBoss" relativePoint="RIGHT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="$parentRightClickMenu" inherits="UIDropDownMenuTemplate" hidden="true" id="1">
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize( self, RT_EventsLineTemplate_RightClickMenu_Initialize, "MENU" )
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Button name="$parentDeleteButton" inherits="RT_LineDeleteTemplate" />
+			<Button name="$parentNoteButton" inherits="RT_LineNoteTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentDeleteButton" relativePoint="LEFT" />
+				</Anchors>
+			</Button>
+			<Button name="$parentHitArea" inherits="RT_LineHitTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentNoteButton" relativePoint="LEFT" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.type = "hit"
+						self.title = "Right click for more options"
+						self.hasTooltip = true
+						self:RegisterForClicks( "LeftButtonUp", "RightButtonUp" )
+					</OnLoad>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>
